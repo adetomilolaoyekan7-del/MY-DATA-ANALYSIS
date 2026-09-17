@@ -14,9 +14,19 @@ The goal is to strengthen my SQL skills so I can use it to create and extract me
 **Project Objective**
 
 * Analyze overall sales performance
-*Examine sales by category/region
-*Calculate revenue, cost, and profit
-*Identify trends in customer purchases
+* Examine sales by category/region
+* Calculate revenue, cost, and profit
+* Identify trends in customer purchases
 * Practice data cleaning and transformation using MYSQL
+
+  **Tools and Technologies**
+
+ *  MySQL
+ *  Power BI
+ *  GitHub
+ *  CSV Dataset
+
+
+   
 
 
