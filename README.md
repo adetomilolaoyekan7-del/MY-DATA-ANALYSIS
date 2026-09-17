@@ -2,6 +2,8 @@
  A SQL and POWER BI based analysis of retail sales data to uncover sales performance, product trends,
   customer behavior, region based analysis and sale performance and profitability insights.
   
+  --- 
+  
 **Project Overview**
 
  This project focuses on analyzing a USA store sales dataset using SQL to clean and extract meaningful insights, performing 
@@ -371,6 +373,19 @@ GROUP BY
 ORDER BY Total_Revenue DESC;
 
 ---
+
+***KEY INSIGHTS***
+
+* Online sales channel generated more revenue than the rest of the sales channel.
+* January had the highest revenue generating over $130 million.
+* The high spending tier contributes 41.77 percent of the spending and incomes generated followed by the medium tier at 33.8 percent
+* There is a very high negative profit indicating that the total cost of the goods exceeds the revenue earned after discounts.
+
+ ***Conclusions***
+ 
+ The profitability analysis revealed that the business recorded a total revenue of $4.05 million and a negative total profit of $5.41 million, with a profit margin of -74.87% indicating that the retail store is going through a serious loss condition that needs to corrected.
+
+A Plausible cause could be because the product price and cost comparison indicates that some products may have unit costs exceeding their selling prices. This suggests that pricing relative to product costs may be a contributing factor to negative profitability.
 
 
 
