@@ -387,6 +387,9 @@ ORDER BY Total_Revenue DESC;
 
 A Plausible cause could be because the product price and cost comparison indicates that some products may have unit costs exceeding their selling prices. This suggests that pricing relative to product costs may be a contributing factor to negative profitability.
 
+<img width="1198" height="545" alt="Screenshot 2026-09-17 153410" src="https://github.com/user-attachments/assets/040184ac-56ca-4e59-876c-cdac24729019" />
+
+
 
 
    
