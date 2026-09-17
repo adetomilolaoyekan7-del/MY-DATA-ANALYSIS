@@ -39,11 +39,11 @@ The goal is to strengthen my SQL skills so I can use it to create and extract me
 
 --- 
 
--- sales channel by revenue --
+-- sales channel by revenue 
 select `sales channel`, `unit price`*`order quantity` * (1- `discount applied`) 
 as revenue from sales_order_usa;
 
--- date data type --
+-- date data type 
 UPDATE sales_order_usa
 SET ProcuredDate = STR_TO_DATE(ProcuredDate, '%d/%m/%Y'),
     OrderDate = STR_TO_DATE(OrderDate, '%d/%m/%Y'),
@@ -58,7 +58,7 @@ MODIFY DeliveryDate DATE;
 
 
     
-    -- month by revenue for the year 2019 --
+   Month by revenue for the year 2019 
 SELECT
     MONTH(OrderDate) AS Month_Number,
     MONTHNAME(OrderDate) AS Month_Name,
@@ -131,7 +131,7 @@ GROUP BY Tier
 
 ORDER BY Tier;
 
--- revenue and profit by region --
+-- revenue and profit by region 
 
 SELECT
     Region_usa.Region,
@@ -157,6 +157,216 @@ JOIN region_usa
     ON store_sales_usa.StateCode = region_usa.StateCode
 
 GROUP BY region_usa.Region
+
+ORDER BY Total_Revenue DESC;
+
+SELECT
+    product_usa.`Product Name`,
+    SUM(
+        (`Unit Price` * `Order Quantity`
+        * (1 - `Discount Applied`))
+        -
+        (`Unit Cost` * `Order Quantity`)
+    ) AS Total_Profit
+
+FROM sales_order_usa 
+
+JOIN product_usa 
+    ON sales_order_usa._ProductID = product_usa._ProductID
+
+GROUP BY
+    product_usa._ProductID,
+    product_usa.`Product Name`
+
+ORDER BY Total_Profit ASC;
+
+-- top 3 stores
+
+WITH StoreRevenue AS (
+
+    SELECT
+        store_sales_usa._StoreID,
+        store_sales_usa.`City Name`,
+        region_usa.Region,
+
+        SUM(
+            sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
+            * (1 - sales_order_usa.`Discount Applied`)
+        ) AS Total_Revenue
+    FROM sales_order_usa 
+
+    JOIN store_sales_usa 
+        ON sales_order_usa._StoreID = store_sales_usa._StoreID
+
+    JOIN region_usa 
+        ON store_sales_usa.StateCode = region_usa.StateCode
+
+    GROUP BY
+        store_sales_usa._StoreID,
+        store_sales_usa.`City Name`,
+        region_usa.Region
+),
+
+RankedStores AS (
+
+    SELECT
+        *,
+        RANK() OVER (
+            PARTITION BY Region
+            ORDER BY Total_Revenue DESC
+        ) AS Store_Rank
+
+    FROM StoreRevenue
+)
+
+SELECT
+    Region,
+    Store_Rank,
+    `City Name`,
+    Total_Revenue
+
+FROM RankedStores
+
+WHERE Store_Rank <= 3
+
+ORDER BY Region, Store_Rank;
+-- PRODUCT BY PROFIT MARGIN -- 
+SELECT
+    product_usa.Category,
+
+    SUM(
+        sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
+        * (1 - sales_order_usa.`Discount Applied`)
+    ) AS Total_Revenue,
+
+    SUM(
+        (sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
+        * (1 - sales_order_usa.`Discount Applied`))
+        -
+        (sales_order_usa.`Unit Cost` * sales_order_usa.`Order Quantity`)
+    ) AS Total_Profit,
+
+    (
+        SUM(
+            (sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
+            * (1 - sales_order_usa.`Discount Applied`))
+            -
+            (sales_order_usa.`Unit Cost` * sales_order_usa.`Order Quantity`)
+        )
+        /
+        NULLIF(
+            SUM(
+                sales_order_usa.`Unit Price`* sales_order_usa.`Order Quantity`
+                * (1 - sales_order_usa.`Discount Applied`)
+            ),
+            0
+        )
+    ) * 100 AS Profit_Margin_Percent
+
+FROM sales_order_usa 
+
+JOIN product_usa 
+    ON sales_order_usa._ProductID = product_usa._ProductID
+
+GROUP BY product_usa.Category
+
+ORDER BY Profit_Margin_Percent DESC;
+
+-- sales channel with high profit margin
+
+SELECT
+    `Sales Channel`,
+
+    SUM(
+        `Unit Price` * `Order Quantity`
+        * (1 - `Discount Applied`)
+    ) AS Total_Revenue,
+
+    SUM(
+        (`Unit Price` * `Order Quantity`
+        * (1 - `Discount Applied`))
+        -
+        (`Unit Cost` * `Order Quantity`)
+    ) AS Total_Profit,
+
+    ROUND(
+        SUM(
+            (`Unit Price` * `Order Quantity`
+            * (1 - `Discount Applied`))
+            -
+            (`Unit Cost` * `Order Quantity`)
+        )
+        /
+        NULLIF(
+            SUM(
+                `Unit Price` * `Order Quantity`
+                * (1 - `Discount Applied`)
+            ),
+            0
+        ) * 100,
+        2
+    ) AS Profit_Margin
+
+FROM sales_order_usa
+
+GROUP BY `Sales Channel`
+
+ORDER BY Profit_Margin DESC;
+
+-- brand performance
+SELECT
+    product_usa.Brand,
+
+    SUM(
+        sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
+        * (1 - sales_order_usa.`Discount Applied`)
+    ) AS Total_Revenue,
+
+    SUM(
+        (sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
+        * (1 - sales_order_usa.`Discount Applied`))
+        -
+        (sales_order_usa.`Unit Cost` * sales_order_usa.`Order Quantity`)
+    ) AS Total_Profit,
+
+    COUNT(DISTINCT sales_order_usa.OrderNumber) AS Total_Orders
+
+FROM sales_order_usa 
+
+JOIN product_usa 
+    ON sales_order_usa._ProductID = product_usa._ProductID
+
+GROUP BY product_usa.Brand
+
+ORDER BY Total_Revenue DESC;
+
+-- sales rep perfromance
+
+SELECT
+    sales_team_usa.`Sales Team`,
+    sales_team_usa.Region,
+
+    SUM(
+        sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
+        * (1 - sales_order_usa.`Discount Applied`)
+    ) AS Total_Revenue,
+
+    SUM(
+        (sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
+        * (1 - sales_order_usa.`Discount Applied`))
+        -
+        (sales_order_usa.`Unit Cost` * sales_order_usa.`Order Quantity`)
+    ) AS Total_Profit
+
+FROM sales_order_usa 
+
+JOIN sales_team_usa 
+    ON sales_order_usa._SalesTeamID = sales_team_usa._SalesTeamID
+
+GROUP BY
+    sales_order_usa._SalesTeamID,
+    sales_team_usa.`Sales Team`,
+    sales_team_usa.Region
 
 ORDER BY Total_Revenue DESC;
 ---
