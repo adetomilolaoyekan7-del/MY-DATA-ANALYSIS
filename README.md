@@ -3,4 +3,8 @@
   customer behavior, region based analysis and sale performance and profitability insights.
   
 **Project Overview**
-  
+     This project focuses on analyzing a USA store sales dataset using SQL to clean and extract meaningful insights, performing 
+ exploratory data analysis, and using SQL queries to examine sales trends, product performance, revenue, and profitability.
+ Through the use of MYSQL functions like the aggregate functions, filtering, and data manipulation techniques this project demonstrates
+ how raw sales data can be transformed into meaningful insights.
+     The goal is to strengthen my SQL skills so I can use it to create and extract meaningful and sharp KPI ideas that tell the stories the mere numbers in the dataset cannot while gaining insights into retail sales performance and business operations.
