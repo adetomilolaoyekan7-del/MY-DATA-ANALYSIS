@@ -10,3 +10,13 @@
  how raw sales data can be transformed into meaningful insights while also using  Power BI to illustrate beautiful stories in a way that tells the audience exactly what that bunch of datasets says.
  
 The goal is to strengthen my SQL skills so I can use it to create and extract meaningful and sharp KPI ideas that tell the stories the mere numbers in the dataset cannot while gaining insights into retail sales performance and business operations.
+
+**Project Objective**
+
+* Analyze overall sales performance
+*Examine sales by category/region
+*Calculate revenue, cost, and profit
+*Identify trends in customer purchases
+* Practice data cleaning and transformation using MYSQL
+
+
