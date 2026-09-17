@@ -1,15 +1,15 @@
 # USA STORE SALES ANALYSIS 
  A SQL and POWER BI based analysis of retail sales data to uncover sales performance, product trends,
-  customer behavior, region based analysis and sale performance and profitability insights.
+ customer behavior, region based analysis and sale performance and profitability insights.
   
   --- 
   
 **Project Overview**
 
  This project focuses on analyzing a USA store sales dataset using SQL to clean and extract meaningful insights, performing 
- exploratory data analysis, and using SQL queries to examine sales trends, product performance, revenue, and profitability.
- Through the use of MYSQL functions like the aggregate functions, filtering, and data manipulation techniques this project demonstrates
- how raw sales data can be transformed into meaningful insights while also using  Power BI to illustrate beautiful stories in a way that tells the audience exactly what that bunch of datasets says.
+exploratory data analysis, and using SQL queries to examine sales trends, product performance, revenue, and profitability.
+Through the use of MYSQL functions like the aggregate functions, filtering, and data manipulation techniques this project demonstrates
+how raw sales data can be transformed into meaningful insights while also using  Power BI to illustrate beautiful stories in a way that tells the audience exactly what that bunch of datasets says.
  
 The goal is to strengthen my SQL skills so I can use it to create and extract meaningful and sharp KPI ideas that tell the stories the mere numbers in the dataset cannot while gaining insights into retail sales performance and business operations.
 
@@ -21,7 +21,7 @@ The goal is to strengthen my SQL skills so I can use it to create and extract me
 * Identify trends in customer purchases
 * Practice data cleaning and transformation using MYSQL
 
-  **Tools and Technologies**
+**Tools and Technologies**
 
  *  MySQL Workbench
  *  Power BI
@@ -30,12 +30,12 @@ The goal is to strengthen my SQL skills so I can use it to create and extract me
 
 **Data Cleaning and Preparation**
 
-* Correcting column data types
-* Converting date values
-* Handling inconsistent data
-* Renaming columns where neccesary
-* Checking for missing/duplicate records
-* Preparing the dataset for analysis
+ * Correcting column data types
+ * Converting date values
+ * Handling inconsistent data
+ * Renaming columns where neccesary
+ * Checking for missing/duplicate records
+ * Preparing the dataset for analysis
 
 **SQL ANALYSIS**
 
@@ -387,8 +387,7 @@ ORDER BY Total_Revenue DESC;
 
 A Plausible cause could be because the product price and cost comparison indicates that some products may have unit costs exceeding their selling prices. This suggests that pricing relative to product costs may be a contributing factor to negative profitability.
 
-<img width="1198" height="545" alt="Screenshot 2026-09-17 153410" src="https://github.com/user-attachments/assets/2d2f3f44-7635-44e0-8541-975dd29ea5cb" />
-
+<img width="1171" height="547" alt="Screenshot 2026-09-17 154432" src="https://github.com/user-attachments/assets/1beb2161-4b7c-4514-a5e8-06e093eeba88" />
 
 <img width="1198" height="545" alt="Screenshot 2026-09-17 153410" src="https://github.com/user-attachments/assets/29d85cc2-083b-4c1a-a846-23551738b6f3" />
 
