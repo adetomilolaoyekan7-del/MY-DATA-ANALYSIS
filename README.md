@@ -40,8 +40,8 @@ The goal is to strengthen my SQL skills so I can use it to create and extract me
 **SQL ANALYSIS**
 
 --- 
-
--- sales channel by revenue 
+_SQL_
+```   -- sales channel by revenue 
 select `sales channel`, `unit price`*`order quantity` * (1- `discount applied`) 
 as revenue from sales_order_usa;
 
@@ -371,7 +371,7 @@ GROUP BY
     sales_team_usa.Region
 
 ORDER BY Total_Revenue DESC;
-
+```
 ---
 
 ***KEY INSIGHTS***
