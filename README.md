@@ -369,6 +369,7 @@ GROUP BY
     sales_team_usa.Region
 
 ORDER BY Total_Revenue DESC;
+
 ---
 
 
