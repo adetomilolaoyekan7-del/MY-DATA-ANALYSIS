@@ -389,6 +389,15 @@ A Plausible cause could be because the product price and cost comparison indicat
 
 <img width="1198" height="545" alt="Screenshot 2026-09-17 153410" src="https://github.com/user-attachments/assets/040184ac-56ca-4e59-876c-cdac24729019" />
 
+<img width="1198" height="545" alt="Screenshot 2026-09-17 153410" src="https://github.com/user-attachments/assets/29d85cc2-083b-4c1a-a846-23551738b6f3" />
+
+<img width="1191" height="537" alt="Screenshot 2026-09-17 153512" src="https://github.com/user-attachments/assets/4979c4cf-4f3d-4788-8090-b772cfa67b1e" />
+
+<img width="1197" height="530" alt="Screenshot 2026-09-17 153538" src="https://github.com/user-attachments/assets/40ee95be-2328-4079-b8d2-5c444de4747c" />
+
+<img width="1150" height="539" alt="Screenshot 2026-09-17 153606" src="https://github.com/user-attachments/assets/4ec52027-62fa-4c03-b09a-adb0bc97e39a" />
+
+
 
 
 
