@@ -41,11 +41,12 @@ The goal is to strengthen my SQL skills so I can use it to create and extract me
 
 --- 
 _SQL_
-```   -- sales channel by revenue 
+```   -- This part of the code was used to generate the sales channel by revenue using simple aggregate function in SQL
 select `sales channel`, `unit price`*`order quantity` * (1- `discount applied`) 
 as revenue from sales_order_usa;
+```
 
--- date data type 
+```    -- I changed the data type of the DATE in the dataset to the format accepted by SQL so that my result can be consistent by using the STR_TO_DATE function.
 UPDATE sales_order_usa
 SET ProcuredDate = STR_TO_DATE(ProcuredDate, '%d/%m/%Y'),
     OrderDate = STR_TO_DATE(OrderDate, '%d/%m/%Y'),
@@ -57,10 +58,8 @@ MODIFY ProcuredDate DATE,
 MODIFY OrderDate DATE,
 MODIFY ShipDate DATE,
 MODIFY DeliveryDate DATE;
-
-
-    
-   Month by revenue for the year 2019 
+```
+``` -- This is to arrange the revenue in orders by month for the year 2019 using the GROUP BY  and WHERE function
 SELECT
     MONTH(OrderDate) AS Month_Number,
     MONTHNAME(OrderDate) AS Month_Name,
@@ -79,61 +78,8 @@ GROUP BY
     MONTHNAME(OrderDate)
     
     order by month_number;
-    
-    -- customer segmentation according to spending habit --
-WITH CustomerRevenue AS (
-    
-    SELECT
-        customer_usa._CustomerID,
-        customer_usa.customer_names,
-
-        SUM(
-            sales_order_usa.`unit price` * sales_order_usa.`Order Quantity`
-            * (1 - sales_order_usa.`Discount Applied`)
-        ) AS Total_Revenue
-
-    FROM customer_usa 
-
-    JOIN sales_order_usa 
-        ON customer_usa._CustomerID = sales_order_usa._CustomerID
-
-    GROUP BY
-        customer_usa._CustomerID,
-        customer_usa.customer_names
-),
-
-CustomerTiers AS (
-
-    SELECT
-        _CustomerID,
-         customer_names,
-        Total_Revenue,
-
-        NTILE(3) OVER (
-            ORDER BY Total_Revenue DESC
-        ) AS Tier
-
-    FROM CustomerRevenue
-)
-
-SELECT
-    CASE
-        WHEN Tier = 1 THEN 'High'
-        WHEN Tier = 2 THEN 'Medium'
-        WHEN Tier = 3 THEN 'Low'
-    END AS Spending_Tier,
-
-    COUNT(*) AS Number_of_Customers,
-
-    ROUND(SUM(Total_Revenue), 2) AS Revenue_Contribution
-
-FROM CustomerTiers
-
-GROUP BY Tier
-
-ORDER BY Tier;
-
--- revenue and profit by region 
+ ```   
+``` -- I used the JOIN, AGGREGATE FUNCTIONS, GROUP BY, ORDER and WHERE function SQL to determine the revenue and profit by region
 
 SELECT
     Region_usa.Region,
@@ -181,8 +127,9 @@ GROUP BY
     product_usa.`Product Name`
 
 ORDER BY Total_Profit ASC;
+``` 
 
--- top 3 stores
+``` -- The code generates the top three stores by the revenue in ascending orders
 
 WITH StoreRevenue AS (
 
@@ -232,145 +179,6 @@ FROM RankedStores
 WHERE Store_Rank <= 3
 
 ORDER BY Region, Store_Rank;
--- PRODUCT BY PROFIT MARGIN -- 
-SELECT
-    product_usa.Category,
-
-    SUM(
-        sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
-        * (1 - sales_order_usa.`Discount Applied`)
-    ) AS Total_Revenue,
-
-    SUM(
-        (sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
-        * (1 - sales_order_usa.`Discount Applied`))
-        -
-        (sales_order_usa.`Unit Cost` * sales_order_usa.`Order Quantity`)
-    ) AS Total_Profit,
-
-    (
-        SUM(
-            (sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
-            * (1 - sales_order_usa.`Discount Applied`))
-            -
-            (sales_order_usa.`Unit Cost` * sales_order_usa.`Order Quantity`)
-        )
-        /
-        NULLIF(
-            SUM(
-                sales_order_usa.`Unit Price`* sales_order_usa.`Order Quantity`
-                * (1 - sales_order_usa.`Discount Applied`)
-            ),
-            0
-        )
-    ) * 100 AS Profit_Margin_Percent
-
-FROM sales_order_usa 
-
-JOIN product_usa 
-    ON sales_order_usa._ProductID = product_usa._ProductID
-
-GROUP BY product_usa.Category
-
-ORDER BY Profit_Margin_Percent DESC;
-
--- sales channel with high profit margin
-
-SELECT
-    `Sales Channel`,
-
-    SUM(
-        `Unit Price` * `Order Quantity`
-        * (1 - `Discount Applied`)
-    ) AS Total_Revenue,
-
-    SUM(
-        (`Unit Price` * `Order Quantity`
-        * (1 - `Discount Applied`))
-        -
-        (`Unit Cost` * `Order Quantity`)
-    ) AS Total_Profit,
-
-    ROUND(
-        SUM(
-            (`Unit Price` * `Order Quantity`
-            * (1 - `Discount Applied`))
-            -
-            (`Unit Cost` * `Order Quantity`)
-        )
-        /
-        NULLIF(
-            SUM(
-                `Unit Price` * `Order Quantity`
-                * (1 - `Discount Applied`)
-            ),
-            0
-        ) * 100,
-        2
-    ) AS Profit_Margin
-
-FROM sales_order_usa
-
-GROUP BY `Sales Channel`
-
-ORDER BY Profit_Margin DESC;
-
--- brand performance
-SELECT
-    product_usa.Brand,
-
-    SUM(
-        sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
-        * (1 - sales_order_usa.`Discount Applied`)
-    ) AS Total_Revenue,
-
-    SUM(
-        (sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
-        * (1 - sales_order_usa.`Discount Applied`))
-        -
-        (sales_order_usa.`Unit Cost` * sales_order_usa.`Order Quantity`)
-    ) AS Total_Profit,
-
-    COUNT(DISTINCT sales_order_usa.OrderNumber) AS Total_Orders
-
-FROM sales_order_usa 
-
-JOIN product_usa 
-    ON sales_order_usa._ProductID = product_usa._ProductID
-
-GROUP BY product_usa.Brand
-
-ORDER BY Total_Revenue DESC;
-
--- sales rep perfromance
-
-SELECT
-    sales_team_usa.`Sales Team`,
-    sales_team_usa.Region,
-
-    SUM(
-        sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
-        * (1 - sales_order_usa.`Discount Applied`)
-    ) AS Total_Revenue,
-
-    SUM(
-        (sales_order_usa.`Unit Price` * sales_order_usa.`Order Quantity`
-        * (1 - sales_order_usa.`Discount Applied`))
-        -
-        (sales_order_usa.`Unit Cost` * sales_order_usa.`Order Quantity`)
-    ) AS Total_Profit
-
-FROM sales_order_usa 
-
-JOIN sales_team_usa 
-    ON sales_order_usa._SalesTeamID = sales_team_usa._SalesTeamID
-
-GROUP BY
-    sales_order_usa._SalesTeamID,
-    sales_team_usa.`Sales Team`,
-    sales_team_usa.Region
-
-ORDER BY Total_Revenue DESC;
 ```
 ---
 
@@ -387,15 +195,11 @@ ORDER BY Total_Revenue DESC;
 
 A Plausible cause could be because the product price and cost comparison indicates that some products may have unit costs exceeding their selling prices. This suggests that pricing relative to product costs may be a contributing factor to negative profitability.
 
-<img width="1171" height="547" alt="Screenshot 2026-09-17 154432" src="https://github.com/user-attachments/assets/1beb2161-4b7c-4514-a5e8-06e093eeba88" />
+---
+***A screenshot of my Dashboard using POWER BI for visualizations***
+##OVERVIEW Page that gives a brief summary of the major insights derived from the dataset
+<img width="983" height="542" alt="Screenshot 2026-09-19 231852" src="https://github.com/user-attachments/assets/b16597b8-2fb2-4d2c-937b-d46ba556dc6e" />
 
-<img width="1198" height="545" alt="Screenshot 2026-09-17 153410" src="https://github.com/user-attachments/assets/29d85cc2-083b-4c1a-a846-23551738b6f3" />
-
-<img width="1191" height="537" alt="Screenshot 2026-09-17 153512" src="https://github.com/user-attachments/assets/4979c4cf-4f3d-4788-8090-b772cfa67b1e" />
-
-<img width="1197" height="530" alt="Screenshot 2026-09-17 153538" src="https://github.com/user-attachments/assets/40ee95be-2328-4079-b8d2-5c444de4747c" />
-
-<img width="1150" height="539" alt="Screenshot 2026-09-17 153606" src="https://github.com/user-attachments/assets/4ec52027-62fa-4c03-b09a-adb0bc97e39a" />
 
 
 
