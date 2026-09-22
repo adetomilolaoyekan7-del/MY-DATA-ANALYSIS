@@ -41,7 +41,10 @@ The goal is to strengthen my SQL skills so I can use it to create and extract me
 
 --- 
 _SQL_
-```  --This part of the code was used to generate the sales channel by revenue using simple aggregate function in SQL--
+
+This part of the code was used to generate the sales channel by revenue using simple aggregate function in SQL
+
+``` 
 select `sales channel`, `unit price`*`order quantity` * (1- `discount applied`) 
 as revenue from sales_order_usa;
 ```
