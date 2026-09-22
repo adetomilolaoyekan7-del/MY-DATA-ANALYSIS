@@ -49,7 +49,9 @@ select `sales channel`, `unit price`*`order quantity` * (1- `discount applied`)
 as revenue from sales_order_usa;
 ```
 
-``` --  I changed the data type of the DATE in the dataset to the format accepted by SQL so that my result can be consistent by using the STR_TO_DATE function. --
+ I changed the data type of the DATE in the dataset to the format accepted by SQL so that my result can be consistent by using the STR_TO_DATE function.
+ 
+```  
 UPDATE sales_order_usa
 SET ProcuredDate = STR_TO_DATE(ProcuredDate, '%d/%m/%Y'),
     OrderDate = STR_TO_DATE(OrderDate, '%d/%m/%Y'),
@@ -62,7 +64,9 @@ MODIFY OrderDate DATE,
 MODIFY ShipDate DATE,
 MODIFY DeliveryDate DATE;
 ```
-``` -- This is to arrange the revenue in orders by month for the year 2019 using the GROUP BY  and WHERE function
+This is to arrange the revenue in orders by month for the year 2019 using the GROUP BY  and WHERE function
+
+``` 
 SELECT
     MONTH(OrderDate) AS Month_Number,
     MONTHNAME(OrderDate) AS Month_Name,
@@ -81,9 +85,10 @@ GROUP BY
     MONTHNAME(OrderDate)
     
     order by month_number;
- ```   
-``` -- I used the JOIN, AGGREGATE FUNCTIONS, GROUP BY, ORDER and WHERE function SQL to determine the revenue and profit by region
-
+ ```
+ I used the JOIN, AGGREGATE FUNCTIONS, GROUP BY, ORDER and WHERE function SQL to determine the revenue and profit by region
+  
+``` 
 SELECT
     Region_usa.Region,
 
@@ -130,10 +135,11 @@ GROUP BY
     product_usa.`Product Name`
 
 ORDER BY Total_Profit ASC;
+```
+
+The code generates the top three stores by the revenue in ascending orders
+
 ``` 
-
-``` -- The code generates the top three stores by the revenue in ascending orders
-
 WITH StoreRevenue AS (
 
     SELECT
@@ -200,8 +206,38 @@ A Plausible cause could be because the product price and cost comparison indicat
 
 ---
 ***A screenshot of my Dashboard using POWER BI for visualizations***
-##OVERVIEW Page that gives a brief summary of the major insights derived from the dataset
+## OVERVIEW
+
+This page gives a brief summary of the major insights derived from the dataset
+
 <img width="983" height="542" alt="Screenshot 2026-09-19 231852" src="https://github.com/user-attachments/assets/b16597b8-2fb2-4d2c-937b-d46ba556dc6e" />
+
+## SALES
+
+This page dives deeper into the insights on sales like the total orders taken, the rate at which the customers spend and the total products sold etc.
+
+<img width="981" height="538" alt="Screenshot 2026-09-19 232122" src="https://github.com/user-attachments/assets/ba777ca5-e9dc-4e01-abf4-5a14e7e04535" />
+
+## PROFITABILITY
+
+While performing my analysis I discovered a huge loss in the sales and I represented it as the orange color to indicate attention in that area.
+
+<img width="982" height="546" alt="Screenshot 2026-09-19 232315" src="https://github.com/user-attachments/assets/f975493e-26ad-471e-8aad-7e941ec13385" />
+
+## REGION AND STORE
+
+ This is a deeper dive into sales and profits or loss across regions and a drill down across states to geta better understanding of where most revenues or losses come per region
+
+ <img width="957" height="543" alt="Screenshot 2026-09-19 232530" src="https://github.com/user-attachments/assets/0ad86737-534d-4175-8cb0-7c9e7a853957" />
+
+## SALES TEAM/REPRESENTATIVE
+
+ A visual representation of which sales rep across regions, states and countries generated more revenue or carried more losses and a comparison of revenues by orders taken by each sales representative
+
+ 
+<img width="969" height="540" alt="Screenshot 2026-09-19 232712" src="https://github.com/user-attachments/assets/29cf932b-15f1-4900-9877-762d22812a20" />
+
+
 
 
 
